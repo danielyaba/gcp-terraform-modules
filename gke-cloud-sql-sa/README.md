@@ -9,7 +9,7 @@ Basic usage of this module is as follows:
 
 ```hcl
 module "gke-cloud-sql-sa" {
-  source        = "github.com/danielyaba/terraform-gcp-modules"
+  source        = "github.com/danielyaba/terraform-gcp-modules//gke-cloud-sql-sa"
   project_id    = "<PROJECT_ID>"
   gke_namespace = "<GKE_NAMESPACE>"
 }
