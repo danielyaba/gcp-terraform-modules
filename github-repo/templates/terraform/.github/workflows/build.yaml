@@ -1,0 +1,42 @@
+---
+name: Build Infastructure
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
+    steps:
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          token_format: "access_token"
+          workload_identity_provider: ${{ secrets.GOOGLE_OAUTH_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SA }}
+          access_token_lifetime: "300s"
+
+      # Configure the Infastructure
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Format
+        run: terraform fmt
+
+      - name: "Terraform Plan"
+        run: terraform plan
+
+      - name: "Terraform Apply"
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: terraform apply --auto-approve
