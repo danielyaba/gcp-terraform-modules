@@ -11,7 +11,6 @@ Basic usage of this module is as follows:
 module "gke-cloud-sql-sa" {
   source                     = "./modules/gke-cloud-sql-sa"
   project_id                 = "<PROJECT_ID>"
-  <!-- service_account            = "<SERVICE_ACCOUNT>" -->
   gke_namespace              = "<GKE_NAMESPACE>
 }
 ```
