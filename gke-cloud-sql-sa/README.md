@@ -24,7 +24,7 @@ Then perform the following commands on the root folder:
 
 ## Inputs
 | Name | Description | Type | Defualt | Required |
-| :--- | :--- | :--- |
+| :--- | :--- | :--- | :--- | :--- |
 | project_id | GCP project with nessacery configuration | string | n/a | yes |
 | k8s_namespace | Namespace in GKE cluster | string | n/a | yes |
 
