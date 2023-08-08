@@ -31,7 +31,7 @@ Then perform the following commands on the root folder:
 
 * ```terraform init``` to get the plugins
 * ```terraform plan``` to see the infrastructure plan
-* ```terraform appy ``` to apply the infrastructure build
+* ```terraform apply ``` to apply the infrastructure build
 * ```terraform destroy ``` to destroy the built infrastructure
 
 ## Inputs

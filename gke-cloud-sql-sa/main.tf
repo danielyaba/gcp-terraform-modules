@@ -1,8 +1,8 @@
 module "service_accounts" {
-  source        = "terraform-google-modules/service-accounts/google"
-  version       = "~> 3.0"
-  project_id    = var.project_id
-  names         = [var.gke_namespace]
+  source     = "terraform-google-modules/service-accounts/google"
+  version    = "~> 3.0"
+  project_id = var.project_id
+  names      = [var.gke_namespace]
   project_roles = [
     "${var.project_id}=>roles/cloudsql.client",
     "${var.project_id}=>roles/iam.workloadIdentityUser",

@@ -9,9 +9,9 @@ Basic usage of this module is as follows:
 
 ```hcl
 module "gke-cloud-sql-sa" {
-  source                     = "./modules/gke-cloud-sql-sa"
-  project_id                 = "<PROJECT_ID>"
-  gke_namespace              = "<GKE_NAMESPACE>"
+  source        = "github.com/danielyaba/terraform-gcp-modules"
+  project_id    = "<PROJECT_ID>"
+  gke_namespace = "<GKE_NAMESPACE>"
 }
 ```
 
@@ -19,7 +19,7 @@ Then perform the following commands on the root folder:
 
 * ```terraform init``` to get the plugins
 * ```terraform plan``` to see the infrastructure plan
-* ```terraform appy ``` to apply the infrastructure build
+* ```terraform appky ``` to apply the infrastructure build
 * ```terraform destroy ``` to destroy the built infrastructure
 
 ## Inputs
