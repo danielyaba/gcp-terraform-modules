@@ -11,7 +11,7 @@ Basic usage of this module is as follows:
 module "gke-cloud-sql-sa" {
   source                     = "./modules/gke-cloud-sql-sa"
   project_id                 = "<PROJECT_ID>"
-  gke_namespace              = "<GKE_NAMESPACE>
+  gke_namespace              = "<GKE_NAMESPACE>"
 }
 ```
 
@@ -26,7 +26,7 @@ Then perform the following commands on the root folder:
 | Name | Description | Type | Defualt | Required |
 | :--- | :--- | :--- | :--- | :--- |
 | project_id | GCP project with nessacery configuration | string | n/a | yes |
-| k8s_namespace | Namespace in GKE cluster | string | n/a | yes |
+| k8s_namespace | Namespace in GKE cluster to create service account  | string | n/a | yes |
 
 ## Outputs
 | Name | Description |
