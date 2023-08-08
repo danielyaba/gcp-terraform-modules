@@ -36,7 +36,7 @@ Then perform the following commands on the root folder:
 
 ## Inputs
 | Name | Description | Type | Defualt | Required |
-| :--- | :--- | :--- |
+| :--- | :--- | :--- | :--- | :--- |
 | project_id | GCP project with nessacery configuration | string | n/a | yes |
 | repository_name | Repository name to create in Github | string | n/a | yes |
 | location | Location for setup artifact registry | string | me-west1 | no |
@@ -64,7 +64,8 @@ PROJECT_ID = <PROJECT_ID>
 gcloud iam workload-identity-pools create github-pool --location="global" --project $PROJECT_ID
 
 gcloud iam workload-identity-pools providers create-oidc github-provider \
-  --location="global" --workload-identity-pool=github-pool  \
+  --location="global" \
+  --workload-identity-pool=github-pool  \
   --issuer-uri="https://token.actions.githubusercontent.com" \
   --attribute-mapping="attribute.actor=assertion.actor,google.subject=assertion.sub,attribute.repository=assertion.repository" \
   --project $PROJECT_ID
