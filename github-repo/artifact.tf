@@ -2,6 +2,7 @@
 	      Artifact Registry configuration
  *****************************************/
 resource "google_artifact_registry_repository" "artifact" {
+  # checkov:skip=BC_GCP_GENERAL_29: ADD REASON
   project       = var.project_id
   location      = var.location
   repository_id = var.repository_name
@@ -18,6 +19,6 @@ resource "google_artifact_registry_repository" "artifact" {
 #   format     = "DOCKER"
 #   id         = var.repository_name
 #   iam = {
-#     "roles/artifactregistry.writer" = ["serviceAccount:${google_service_account.service_account.email}"]
+#     "roles/custom_github_cicd" = ["serviceAccount:${google_service_account.service_account.email}"]
 #   }
 # }

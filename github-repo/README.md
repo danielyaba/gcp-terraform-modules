@@ -37,11 +37,11 @@ Then perform the following commands on the root folder:
 ## Inputs
 | Name | Description | Type | Defualt | Required |
 | :--- | :--- | :--- | :--- | :--- |
-| project_id | GCP project with nessacery configuration | string | n/a | yes |
-| repository_name | Repository name to create in Github | string | n/a | yes |
-| location | Location for setup artifact registry | string | me-west1 | no |
-| framework | Framework of the micro-service (currently supported: python, terraform) | string | n/a | yes |
-| owners_team | Team who is respos  ible for this repository | string | n/a | yes |
+| [project_id](variables.tf#L1) | GCP project with nessacery configuration | string | n/a | yes |
+| [repository_name](variables.tf#L12) | Repository name to create in Github | string | n/a | yes |
+| [location](variables.tf#L6) | Location for setup artifact registry | string | me-west1 | no |
+| [framework](variables.tf#L17) | Framework of the micro-service (currently supported: python, terraform) | string | n/a | yes |
+| [owners_team](variables.tf#L22) | Team who is respos  ible for this repository | string | n/a | yes |
 
 ## Outputs
 | Name | Description |
