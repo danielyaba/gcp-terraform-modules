@@ -1,6 +1,6 @@
-# Terraform Github Repository Module
-This module creates a service account in GCP with OIDC authentication for accessing GCP Cloul SQL. The resource/services/activations/deletions that this module will create are:
-* Create a Service Account in GCP with permissions for Workload Indentity authentication and access to GCP Cloud SQL 
+# GKE Cloud SQL Service Account
+This module creates a service account in GCP with OIDC authentication for accessing GCP Cloul SQL from GKE. The resource/services/activations/deletions that this module will create are:
+* Create a Service Account in GCP with permissions for Workload Indentity authentication and access to GCP Cloud SQL from GKE clusters 
 
 
 ## Usage
