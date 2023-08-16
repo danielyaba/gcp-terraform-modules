@@ -77,7 +77,7 @@ Add the token as environment variable under 'Terraform Plan' and 'Terraform Appl
 To do so, you should add some extra "with" values which requires terraform version
 To install the lastest version of Terraform add this step in the beggining:
 
-add this spep in the beginning of your job:
+add this spep as the first step of your job:
 
 ```hcl
 - id: get_tf_latest_ver
