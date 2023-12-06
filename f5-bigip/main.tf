@@ -4,7 +4,6 @@ locals {
     as3 = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.46.0/f5-appsvcs-3.46.0-5.noarch.rpm"
     cfe = "https://github.com/F5Networks/f5-cloud-failover-extension/releases/download/v1.15.0/f5-cloud-failover-1.15.0-0.noarch.rpm"
     do   = "gs://${module.f5-packages-gcs.name}/f5-declarative-onboarding/v1.41.0/f5-declarative-onboarding-1.41.0-8.noarch.rpm"
-    # do   = "http://${resource.google_compute_instance.f5-packages-nginx.network_interface.0.network_ip}/5-declarative-onboarding/v1.41.0/f5-declarative-onboarding-1.41.0-8.noarch.rpm"
     fast = "https://github.com/F5Networks/f5-appsvcs-templates/releases/download/v1.25.0/f5-appsvcs-templates-1.25.0-1.noarch.rpm"
     init = "https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v1.6.2/dist/f5-bigip-runtime-init-1.6.2-1.gz.run"
     ts   = "https://github.com/F5Networks/f5-telemetry-streaming/releases/download/v1.33.0/f5-telemetry-1.33.0-1.noarch.rpm"
@@ -30,6 +29,7 @@ locals {
   )
 }
 
+# create f5-bigip-vm's
 resource "google_compute_instance" "f5-bigip-vms" {
   for_each = var.dedicated_instances_configs
   name     = "${var.prefix}-${each.key}"

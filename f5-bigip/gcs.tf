@@ -1,19 +1,3 @@
-# module "f5-packages-gcs" {
-#   source        = "./modules/gcs"
-#   name          = "f5-packages-gcs"
-#   project_id    = var.project_ids.office
-#   location      = upper(var.region)
-#   storage_class = "STANDARD"
-#   force_destroy = true
-#   iam = {
-#     "roles/storage.objectUser" = ["serviceAccount:${var.service_accounts.waf_sa}"]
-#   }
-#   labels = {
-#     owner = "gcpsecops"
-#     env   = "prod"
-#   }
-# }
-
 # create bucket for f5-declerative-onboarding rpm
 resource google_storage_bucket "f5-packges-gcs" {
   project = var.project_id
