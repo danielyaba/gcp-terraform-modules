@@ -133,6 +133,16 @@ when HTTP_REQUEST {
     if { [string tolower [HTTP::path]] equals "/example1" } {
         pool app1
     }
+
+    # route traffic to internal virtual-server based on hostname
+    if { [string tolower [HTTP::host]] equals "app1.example.com" } {
+        virtual virt_app1
+    }
+
+    # route traffic internal virtual-server based on path
+    if { [string tolower [HTTP::path]] equals "/example1" } {
+        virtual virt_app1
+    }
 }
 ```
 
