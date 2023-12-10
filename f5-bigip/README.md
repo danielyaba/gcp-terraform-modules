@@ -144,14 +144,14 @@ resource "google_storage_bucket_iam_binding" "binding" {
 resource "google_storage_bucket_object" "picture" {
   name   = "f5-declerative-onboarding/<VERSION-OF-RPM>/<NAME-OF-DO-RPM>"
   source = "./data/<NAME-OF-DO-RPM>"
-  bucket = rsource.google_storage_bucket.f5-rpms-bucket.name
+  bucket = resource.google_storage_bucket.f5-rpms-bucket.name
 }
 ```
 
 * specify the bucket name inside ```shared_intances_config``` variable:  
 ```
   shared_instances_configs = {
-    f5_packages_bucket = rsource.google_storage_bucket.f5-rpms-bucket.name
+    f5_packages_bucket = resource.google_storage_bucket.f5-rpms-bucket.name
     ilb_vip            = "1.2.3.4"
     service_account    = "f5-bigip@my-project.iam.gserviceaccount.com"
     dns_suffix         = "example.com"
