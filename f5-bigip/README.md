@@ -57,6 +57,7 @@ module "f5-bigip-cluster" {
     dns_suffix      = "example.com"
     tags            = ["f5-lb-appliance"]
   }
+
   dedicated_instances_configs = {
     a = {
       license_key = "AAAA-BBBB-CCCC-DDDD-EEEEEEE"
@@ -69,7 +70,9 @@ module "f5-bigip-cluster" {
 ```
 
 ### Active/Standby Instances With IP addresses Pre-defined
+
 This example below creates F5-BigIP active/standby cluster with pre-defined IP addresses sent to the module
+
 ```
 module "f5-bigip-cluster" {
   source     = "./modules/f5-bigip"
@@ -96,6 +99,7 @@ module "f5-bigip-cluster" {
     dns_suffix      = "example.com"
     tags            = ["f5-lb-appliance"]
   }
+
   dedicated_instances_configs = {
     a = {
       license_key = "AAAA-BBBB-CCCC-DDDD-EEEEEEE"
