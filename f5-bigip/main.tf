@@ -94,7 +94,7 @@ resource "google_compute_instance" "f5-bigip-vms" {
       f5_password                       = var.shared_instances_configs.password
       gcp_secret_manager_authentication = false
       gcp_secret_name                   = ""
-      ssh_keypair                       = var.shared_instances_configs.ssh_public_key
+      ssh_keypair                       = file(var.shared_instances_configs.ssh_public_key)
       license_key                       = each.value.license_key
       dns_suffix                        = var.shared_instances_configs.dns_suffix
       dns_server                        = var.shared_instances_configs.dns_server

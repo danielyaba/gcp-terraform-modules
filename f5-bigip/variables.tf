@@ -45,7 +45,7 @@ variable "shared_instances_configs" {
     password           = optional(string, "Default123456!")
     route_to_configure = optional(string)
     service_account    = optional(string)
-    ssh_public_key     = optional(string, "./data/public.key")
+    ssh_public_key     = optional(string, "~/.ssh/id_rsa.pub")
     tags               = optional(list(string))
     timezone           = optional(string, "UTC")
     username           = optional(string, "admin")
