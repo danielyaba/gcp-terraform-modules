@@ -28,9 +28,9 @@ locals {
     {
       for k, v in var.dedicated_instances_configs :
       "mgmt_ip_${k}" =>
-      v.network_config.management_address == null ?
+      v.network_addresses.management == null ?
       resource.google_compute_address.management[k].address :
-      v.network_config.management_address
+      v.network_addresses.management_address
     }
   )
 }
@@ -62,27 +62,27 @@ resource "google_compute_instance" "f5-bigip-vms" {
   # External Nic
   network_interface {
     subnetwork = var.vpc_config.external.subnetwork
-    network_ip = (each.value.network_config.external_address == null ?
+    network_ip = (each.value.network_addresses.external == null ?
       resource.google_compute_address.external[each.key].address :
-      each.value.network_config.external_address
+      each.value.network_addresses.external
     )
   }
 
   # Management Nic
   network_interface {
     subnetwork = var.vpc_config.management.subnetwork
-    network_ip = (each.value.network_config.management_address == null ?
+    network_ip = (each.value.network_addresses.management == null ?
       resource.google_compute_address.management[each.key].address :
-      each.value.network_config.management_address
+      each.value.network_addresses.management
     )
   }
 
   # Internal NIC
   network_interface {
     subnetwork = var.vpc_config.internal.subnetwork
-    network_ip = (each.value.network_config.internal_address == null ?
+    network_ip = (each.value.network_addresses.internal == null ?
       resource.google_compute_address.internal[each.key].address :
-      each.value.network_config.internal_address
+      each.value.network_addresses.internal
     )
   }
 
@@ -100,14 +100,14 @@ resource "google_compute_instance" "f5-bigip-vms" {
       dns_server                        = var.shared_instances_configs.dns_server
       ntp_server                        = var.shared_instances_configs.ntp_server
       timezone                          = var.shared_instances_configs.timezone
-      mgmt_ip = (each.value.network_config.management_address == null ?
+      mgmt_ip = (each.value.network_addresses.management == null ?
         resource.google_compute_address.management[each.key].address :
-        each.value.network_config.management_address
+        each.value.network_addresses.management_address
       )
       ilb_vip = var.shared_instances_configs.ilb_vip
-      private_vip = (each.value.network_config.external_address == null ?
+      private_vip = (each.value.network_addresses.external == null ?
         resource.google_compute_address.external[each.key].address :
-        each.value.network_config.external_address
+        each.value.network_addresses.external_address
       )
       internal_subnets = var.shared_instances_configs.route_to_configure
       }

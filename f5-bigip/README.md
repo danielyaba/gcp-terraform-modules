@@ -80,16 +80,13 @@ module "f5-bigip-cluster" {
   vpc_config = {
     external = {
       subnetwork = "projects/my-project/regions/me-west1/subnetworks/external"
-      external_address = "10.10.1.10"
 
     }
     internal = {
       subnetwork = "projects/my-project/regions/me-west1/subnetworks/internal"
-      internal_address = "10.10.2.10"
     }
     management = {
      subnetwork = "projects/my-project/regions/me-west1/subnetworks/managment"
-     management_address = "10.10.3.10"
     }
   }
 
@@ -102,9 +99,19 @@ module "f5-bigip-cluster" {
   dedicated_instances_configs = {
     a = {
       license_key = "AAAA-BBBB-CCCC-DDDD-EEEEEEE"
+      network_addresses {
+        managment = "10.10.0.10"
+        external  = "10.10.2.10"
+        internal  = "10.10.3.10"
+      }
     }
     b = {
       license_key = "AAAA-BBBB-CCCC-DDDD-EEEEEEE"
+      network_addresses {
+        managment = "10.10.0.11"
+        external  = "10.10.2.11"
+        internal  = "10.10.3.11"
+      }
     }
   }
 }

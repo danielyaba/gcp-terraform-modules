@@ -2,10 +2,10 @@ variable "dedicated_instances_configs" {
   description = "The F5 VMs configuration. The map keys are the zones where the VMs are deployed."
   type = map(object({
     license_key = optional(string, "AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE")
-    network_config = optional(object({
-      external_address   = optional(string)
-      internal_address   = optional(string)
-      management_address = optional(string)
+    network_addresses = optional(object({
+      external   = optional(string)
+      internal   = optional(string)
+      management = optional(string)
     }), {})
   }))
 }
