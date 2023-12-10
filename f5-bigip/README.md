@@ -23,8 +23,8 @@ You won't be able to pass traffic through the F5 load balancers until you perfor
 * virtual server ```virt_INT-INGRESS-CONTROLLER``` configured for traffic coming from Google internal load balancer
 * virtual server ```virt_EXT-INGRESS-CONTROLLER``` configured for traffic coming from Google external load balancer
 * iRule ```irule_ENGRESS_CONTROLLER``` is for routing traffic based on hostname and/or pathes to internal virtual servers or backend pools
-* Configure Google load balancers' health checks will query the F5 VMs on port 443, iRule is already set to answer with TCP and HTTP (200 OK)
-* 
+* Configure Google load balancers' health checks to query the F5 F5-BigIP VMs on port 443, iRule is already set to answer with TCP and HTTP (200 OK)
+
 
 ## Examples
 
@@ -165,6 +165,39 @@ Inside ```data``` directory there is ```f5_onboard_mgmt.tmpl``` template file:
 F5-BigIP cluster will be configured with configSync and failover with connectivity on the management NIC.  
 Modify the template file under ```metadata_startup_script``` with appropriate temlapte file name.  
 You can use ```f5_onboard_gcs_mgmt.tmpl``` for downloading RPMs from GCS bucket and configure configSync and failover with connectivity on the management NIC
+
+## Create Instance-Group For Each Instance
+In order to GLBs to forward traffic to the F5-BigIP VMs you should create an instance-group for every instance in each zone
+The backends of the GLB will be those instance-groups
+Create instance for each instance:
+```
+resource "google_compute_instance_group" "f5-bigip-a" {
+  name        = "f5-bigip-a"
+  description = "Terraform test instance group"
+  instances = [
+    module.f5-bigip-cluster.f5-bigip-a.id,
+  ]
+  named_port {
+    name = "https"
+    port = "443"
+  }
+  zone = "me-west1-a"
+}
+
+resource "google_compute_instance_group" "f5-bigip-b" {
+  name        = "f5-bigip-b"
+  description = "Terraform test instance group"
+  instances = [
+    module.f5-bigip-cluster.f5-bigip-b.id,
+  ]
+  named_port {
+    name = "https"
+    port = "443"
+  }
+  zone = "me-west1-b"
+}
+
+```
 
 
 ## Ingress Controller iRule
