@@ -114,6 +114,6 @@ resource "google_compute_instance" "f5-bigip-vms" {
   )), "/\r/", "")
 
   labels = var.shared_instances_configs.labels
-  tags   = try(concat(var.shared_instances_configs.tags, ["appliance-waf", "allow-web"]), ["appliance-waf", "allow-web"])
+  tags   = var.shared_instances_configs.tags
 
 }
