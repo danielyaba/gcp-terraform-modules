@@ -184,7 +184,9 @@ Create instance for each instance:
 ```
 resource "google_compute_instance_group" "f5-bigip-a" {
   name        = "f5-bigip-a"
-  description = "Terraform test instance group"
+  description = "Terraform f5-bigip-a instance group"
+  project = "myproject"
+  zone = "me-west1-a"
   instances = [
     module.f5-bigip-cluster.f5-bigip-a.id,
   ]
@@ -192,12 +194,13 @@ resource "google_compute_instance_group" "f5-bigip-a" {
     name = "https"
     port = "443"
   }
-  zone = "me-west1-a"
 }
 
 resource "google_compute_instance_group" "f5-bigip-b" {
   name        = "f5-bigip-b"
-  description = "Terraform test instance group"
+  description = "Terraform f5-bigip-b instance group"
+  project = "myproject"
+  zone = "me-west1-b"
   instances = [
     module.f5-bigip-cluster.f5-bigip-b.id,
   ]
@@ -205,7 +208,6 @@ resource "google_compute_instance_group" "f5-bigip-b" {
     name = "https"
     port = "443"
   }
-  zone = "me-west1-b"
 }
 
 ```
