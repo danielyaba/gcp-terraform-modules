@@ -7,7 +7,7 @@
 * Every F5-BigIP instance has only two ingress virtual-servers, each one for every Google-Load-Balancer.
 * The blueprint allows to expose the F5 instances both externally and internally, using internal and external load balancers. This deployment exposes the same F5 instances both externally and internally at the same time with backend instance-groups.
 * We use a modified F5-BigIP f5-onboard.tmpl file for initial configurations, cluster sync and failover
-* All initial setup is configued with F5-Declerative-Onboarding RPM downloaded from accessible bucket to the intances service-account.
+* All initial setup is configured with F5-Declerative-Onboarding RPM (Currently the only RPM supported in this module)
 * Default provisioned modules are LTM and ASM. Change myProvisioning section in f5_onboard.tmpl in order to enable and/or disable modules (ASM, LTM, APM etc.)
 * Every configuration based on traffic-group-1 is synced between F5-BigIP instances
 * Make sure to specify Google-Internal-Load-Balancer IP address to the module in order create virtual server on the corresponding IP of GCP-ILB
@@ -120,6 +120,11 @@ module "f5-bigip-cluster" {
   }
 }
 ```
+
+## Download RPMs from Internal Server / GCS-Bucket
+Inside data folder there few f5_onboard template scripts:
+* f5_onboard.tmpl (default) - F5-BigIP instances will download all RPMs and INIT package from the internal (GitHub and cdn.f5.com)
+* f5_onboard_gcs - F5-BigIP instances will download RPMs from GCS bucket
 
 ## Ingress Controller iRule
 ```
