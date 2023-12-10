@@ -117,7 +117,7 @@ module "f5-bigip-cluster" {
 }
 ```
 
-## Download DO RPM from GCS-Bucket
+## Download F5-Declerative-Onboarding RPM from GCS-Bucket
 Inside ```data``` directory there is ```f5_onboard_gcs.tmpl``` template file:  
 F5-BigIP instances will download RPMs from GCS bucket (bucket name should be specified in shared_instances_config declaration).  
 Instructions: 
