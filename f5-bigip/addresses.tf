@@ -1,5 +1,5 @@
 resource "google_compute_address" "management" {
-  for_each = toset([for k, v in var.dedicated_instances_configs : k if v.network_config.management_address == null])
+  for_each     = toset([for k, v in var.dedicated_instances_configs : k if v.network_config.management_address == null])
   project      = var.project_id
   name         = "${var.prefix}-mgmt-${each.key}"
   description  = "Terraform Managed"
@@ -9,7 +9,7 @@ resource "google_compute_address" "management" {
 }
 
 resource "google_compute_address" "external" {
-  for_each = toset([for k, v in var.dedicated_instances_configs : k if v.network_config.external_address == null])
+  for_each     = toset([for k, v in var.dedicated_instances_configs : k if v.network_config.external_address == null])
   project      = var.project_id
   name         = "${var.prefix}-ext-${each.key}"
   description  = "Terraform Managed"
@@ -19,7 +19,7 @@ resource "google_compute_address" "external" {
 }
 
 resource "google_compute_address" "internal" {
-  for_each = toset([for k, v in var.dedicated_instances_configs : k if v.network_config.internal_address == null])
+  for_each     = toset([for k, v in var.dedicated_instances_configs : k if v.network_config.internal_address == null])
   project      = var.project_id
   name         = "${var.prefix}-int-${each.key}"
   description  = "Terraform Managed"
