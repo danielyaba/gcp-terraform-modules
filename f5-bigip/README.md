@@ -124,6 +124,8 @@ Instructions:
 * Modify the template file under ```metadata_startup_script``` with the appropriate template file name
 * Download the latest RPM from [F5-Declerative-Onboarding Github repository](https://github.com/F5Networks/f5-declarative-onboarding/releases) and locate the file under ```data``` directory
 * Create a bucket and upload the file into the bucket:
+Save the RPM in the bucket on the same directory as the file from Github
+For example: f5-declerative-onboarding/v1.41.0/f5-declarative-onboarding-1.41.0-8.noarch.rpm
 ```
 resource "google_storage_bucket" "f5-packages-bucket" {
   name          = "f5-rpms-bucket"
@@ -148,7 +150,7 @@ resource "google_storage_bucket_object" "picture" {
 }
 ```
 
-* specify the bucket name inside ```shared_intances_config``` variable:  
+* specify the bucket name inside ```shared_intances_config``` variable under ```main.tf``` file:  
 ```
   shared_instances_configs = {
     f5_packages_bucket = resource.google_storage_bucket.f5-rpms-bucket.name
@@ -157,6 +159,15 @@ resource "google_storage_bucket_object" "picture" {
     dns_suffix         = "example.com"
   }
 ```
+* change locals section under ```main.tf``` file:
+```
+locals {
+  _f5_urls = {
+    do   = "gs://${var.shared_instances_configs.f5_packages_bucket}/f5-declarative-onboarding/v1.41.0/f5-declarative-onboarding-1.41.0-8.noarch.rpm"
+  }
+}
+```
+
 
 
 
