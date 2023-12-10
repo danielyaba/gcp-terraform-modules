@@ -11,6 +11,8 @@
 * Default provisioned modules are LTM and ASM. Change myProvisioning section in f5_onboard.tmpl in order to enable and/or disable modules (ASM, LTM, APM etc.)
 * Every configuration based on traffic-group-1 is synced between F5-BigIP instances
 * Make sure to specify Google-Internal-Load-Balancer IP address to the module in order create virtual server on the corresponding IP of GCP-ILB
+* Only Active F5-BigIP instance is serving traffic. Virtual-servers on standby unit is on disabled state
+* When machine goes standby vitual-servers changing mode to disabled state and when machine goes active virtual-servers changing mode to enabled
 
 The default username is admin and the password is Default123456!
 
@@ -22,7 +24,7 @@ You won't be able to pass traffic through the F5 load balancers until you perfor
 * virtual server ```virt_EXT-INGRESS-CONTROLLER``` configured for traffic coming from Google external load balancer
 * iRule ```irule_ENGRESS_CONTROLLER``` is for routing traffic based on hostname and/or pathes to internal virtual servers or backend pools
 * Configure Google load balancers' health checks will query the F5 VMs on port 443, iRule is already set to answer with TCP and HTTP (200 OK)
-* Default provisioned modules are LTM and ASM. Change myProvisioning section in f5_onboard.tmpl in order to enable or disable modules (ASM, LTM, APM etc.)
+* 
 
 ## Examples
 
