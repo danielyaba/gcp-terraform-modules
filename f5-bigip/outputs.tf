@@ -8,13 +8,15 @@ output "f5-bigip-vms" {
     id            = v.id
     zone          = v.zone
   } }
+  description = "Details of every f5-bigip instance."
 }
 
 output "shared_instances_configs" {
   value = {
     service_account = var.shared_instances_configs.service_account
-    username        = var.f5_username
-    password        = var.f5_password
+    username        = "Username as provided in startup-script"
+    password        = "Password as provided in startup-script"
     dns_suffix      = var.shared_instances_configs.dns_suffix
   }
+  description = "Details of shared instances config."
 }
