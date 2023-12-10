@@ -126,12 +126,12 @@ module "f5-bigip-cluster" {
 when HTTP_REQUEST {
     # route traffic to backend pool based on hostname
     if { [string tolower [HTTP::host]] equals "app1.example.com" } {
-        pool app1
+        pool pool_app1
     }
 
     # route traffic to backend pool based on path
     if { [string tolower [HTTP::path]] equals "/example1" } {
-        pool app1
+        pool pool_app1
     }
 
     # route traffic to internal virtual-server based on hostname
