@@ -85,8 +85,7 @@ resource "google_compute_instance" "f5-bigip-vms" {
       each.value.network_addresses.internal
     )
   }
-
-  metadata_startup_script = replace(templatefile("${path.module}/data/f5_onboard_gcs_mgmt.tmpl",
+  metadata_startup_script = replace(templatefile("${path.module}/data/f5_onboard.tmpl",
     merge(local.f5_config, {
       onboard_log                       = "/var/log/startup-script.log",
       libs_dir                          = "/config/cloud/gcp/node_modules",
