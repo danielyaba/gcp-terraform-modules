@@ -34,7 +34,7 @@ Then perform the following commands on the root folder:
 * ```terraform apply ``` to apply the infrastructure build
 * ```terraform destroy ``` to destroy the built infrastructure
 
-## Inputs
+## Variables
 | Name | Description | Type | Defualt | Required |
 | :--- | :--- | :--- | :--- | :--- |
 | [project_id](variables.tf#L1) | GCP project with nessacery configuration | string | n/a | yes |
@@ -55,9 +55,9 @@ Before this module can be used on a project, you must ensure that the following 
 1. Terraform are installed on the machine where Terraform is executed.
 2. The service account you execute the module with, has the right permissions.
 3. Personal Access Token is created and saved in Github-Action-secrets / external Secret-Manager
-4. IAM workload identity pool and OIDC provider already configured in GCP prject with the names "github-pool" and "github-provider"
+4. IAM workload identity pool and OIDC provider already configured in GCP project with the names "github-pool" and "github-provider"
 
-### Creating IAM workload identity configuration 
+### Creating IAM Workload-Identity Configuration 
 Create IAM workload identity provider and oidc pool using gcloud commands:
 ```hcl
 PROJECT_ID = <PROJECT_ID>
@@ -71,7 +71,7 @@ gcloud iam workload-identity-pools providers create-oidc github-provider \
   --project $PROJECT_ID
   ```
 
-### Using Github token in the workflow
+### Using Github Token In CICD
 When Terraform is executing 'terraform plan' command it requires a token for Github
 Add the token as environment variable under 'Terraform Plan' and 'Terraform Apply' steps
 To do so, you should add some extra "with" values which requires terraform version
