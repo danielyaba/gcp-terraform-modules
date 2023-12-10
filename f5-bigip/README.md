@@ -29,7 +29,6 @@ You won't be able to pass traffic through the F5 load balancers until you perfor
 ## Examples
 
 ### Active/Standby Instances With IP addresses
-
 This example below creates F5-BigIP active/standby cluster along with IP addresses for management, external and internal NICs.
 
 ```
@@ -70,7 +69,6 @@ module "f5-bigip-cluster" {
 ```
 
 ### Active/Standby Instances With IP addresses Pre-defined
-
 This example below creates F5-BigIP active/standby cluster with pre-defined IP addresses sent to the module
 
 ```
@@ -122,7 +120,6 @@ module "f5-bigip-cluster" {
 ```
 
 ## Download RPMs from GCS-Bucket
-
 Inside data directory there is ```f5_onboard_gcs.tmpl``` template file:  
 F5-BigIP instances will download RPMs from GCS bucket (bucket name should be specified in shared_instances_config declaration).  
 Modify the template file under ```metadata_startup_script``` with appropriate name
@@ -161,7 +158,6 @@ when HTTP_REQUEST {
 ```
 
 ## F5 code copyright
-
 This repository usees code from the third-party project terraform-gcp-bigip-module.
 
 This code is also licensed as Apache 2.0.
@@ -171,7 +167,6 @@ This is the original copyright notice from the third-party repository: Copyright
 <!-- BEGIN TFDOC -->
 
 ## Variables
-
 | name | description | type | required | default |
 |---|---|:---:|:---:|:---:|
 | [dedicated_instances_configs](variables.tf#L1) | The F5 VMs configuration. The map keys are the zones where the VMs are deployed. | <code title="map&#40;object&#40;&#123;&#10;  license_key &#61; optional&#40;string, &#34;AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE&#34;&#41;&#10;  network_addresses &#61; optional&#40;object&#40;&#123;&#10;    external   &#61; optional&#40;string&#41;&#10;    internal   &#61; optional&#40;string&#41;&#10;    management &#61; optional&#40;string&#41;&#10;  &#125;&#41;, &#123;&#125;&#41;&#10;&#125;&#41;&#41;">map&#40;object&#40;&#123;&#8230;&#125;&#41;&#41;</code> | ✓ |  |
@@ -182,7 +177,6 @@ This is the original copyright notice from the third-party repository: Copyright
 | [vpc_config](variables.tf#L55) | VPC configs for resources. | <code title="object&#40;&#123;&#10;  external &#61; object&#40;&#123;&#10;    subnetwork &#61; string&#10;  &#125;&#41;&#10;  internal &#61; object&#40;&#123;&#10;    subnetwork &#61; string&#10;  &#125;&#41;&#10;  management &#61; object&#40;&#123;&#10;    subnetwork &#61; string&#10;  &#125;&#41;&#10;&#125;&#41;">object&#40;&#123;&#8230;&#125;&#41;</code> | ✓ |  |
 
 ## Outputs
-
 | name | description | sensitive |
 |---|---|:---:|
 | [f5-bigip-vms](outputs.tf#L1) | Details of every f5-bigip instance. |  |
