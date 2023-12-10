@@ -125,13 +125,13 @@ module "f5-bigip-cluster" {
 
 Inside data directory there is ```f5_onboard_gcs.tmpl``` template file:  
 F5-BigIP instances will download RPMs from GCS bucket (bucket name should be specified in shared_instances_config declaration).  
-Modify the template file under ```metadata_startup_script``` with appripiate name
+Modify the template file under ```metadata_startup_script``` with appropriate name
 
 
 ## Configure configSync and Failover on Management Subnetwork
 Inside data directory there is ```f5_onboard_mgmt.tmpl``` template file:  
 F5-BigIP cluster will be configured with configSync and failover with connectivity on the management NIC.  
-Modify the template file under ```metadata_startup_script``` with appripiate name.  
+Modify the template file under ```metadata_startup_script``` with appropriate name.  
 You can use ```f5_onboard_gcs_mgmt.tmpl``` for downloading RPMs from GCS bucket and configure configSync and failover with connectivity on the management NIC
 
 
