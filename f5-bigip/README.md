@@ -54,7 +54,6 @@ module "f5-bigip-cluster" {
     ilb_vip         = "1.2.3.4"
     service_account = "f5-bigip@my-project.iam.gserviceaccount.com"
     dns_suffix      = "example.com"
-    tags            = ["f5-lb-appliance"]
   }
 
   dedicated_instances_configs = {
@@ -95,7 +94,6 @@ module "f5-bigip-cluster" {
     ilb_vip         = "1.2.3.4"
     service_account = "f5-bigip@my-project.iam.gserviceaccount.com"
     dns_suffix      = "example.com"
-    tags            = ["f5-lb-appliance"]
   }
 
   dedicated_instances_configs = {
@@ -119,16 +117,53 @@ module "f5-bigip-cluster" {
 }
 ```
 
-## Download RPMs from GCS-Bucket
-Inside data directory there is ```f5_onboard_gcs.tmpl``` template file:  
+## Download DO RPM from GCS-Bucket
+Inside ```data``` directory there is ```f5_onboard_gcs.tmpl``` template file:  
 F5-BigIP instances will download RPMs from GCS bucket (bucket name should be specified in shared_instances_config declaration).  
-Modify the template file under ```metadata_startup_script``` with appropriate name
+Instructions: 
+* Modify the template file under ```metadata_startup_script``` with the appropriate template file name
+* Download the latest RPM from [F5-Declerative-Onboarding Github repository](https://github.com/F5Networks/f5-declarative-onboarding/releases) and locate the file under ```data``` directory
+* Create a bucket and upload the file into the bucket:
+```
+resource "google_storage_bucket" "f5-packages-bucket" {
+  name          = "f5-rpms-bucket"
+  location      = "ME-WEST1"
+  force_destroy = true
+
+  uniform_bucket_level_access = true
+}
+
+resource "google_storage_bucket_iam_binding" "binding" {
+  bucket = resource.google_storage_bucket.f5-rpms-bucket.name
+  role = "roles/storage.objectUser"
+  members = [
+    "serviceAccount:"f5-bigip@my-project.iam.gserviceaccount.com"",
+  ]
+}
+
+resource "google_storage_bucket_object" "picture" {
+  name   = "f5-declerative-onboarding/<VERSION-OF-RPM>/<NAME-OF-DO-RPM>"
+  source = "./data/<NAME-OF-DO-RPM>"
+  bucket = rsource.google_storage_bucket.f5-rpms-bucket.name
+}
+```
+
+* specify the bucket name inside ```shared_intances_config``` variable:  
+```
+  shared_instances_configs = {
+    f5_packages_bucket = rsource.google_storage_bucket.f5-rpms-bucket.name
+    ilb_vip            = "1.2.3.4"
+    service_account    = "f5-bigip@my-project.iam.gserviceaccount.com"
+    dns_suffix         = "example.com"
+  }
+```
+
 
 
 ## Configure configSync and Failover on Management Subnetwork
-Inside data directory there is ```f5_onboard_mgmt.tmpl``` template file:  
+Inside ```data``` directory there is ```f5_onboard_mgmt.tmpl``` template file:  
 F5-BigIP cluster will be configured with configSync and failover with connectivity on the management NIC.  
-Modify the template file under ```metadata_startup_script``` with appropriate name.  
+Modify the template file under ```metadata_startup_script``` with appropriate temlapte file name.  
 You can use ```f5_onboard_gcs_mgmt.tmpl``` for downloading RPMs from GCS bucket and configure configSync and failover with connectivity on the management NIC
 
 
