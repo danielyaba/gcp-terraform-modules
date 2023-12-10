@@ -1,10 +1,16 @@
 # F5 BigIP-VE HA active-standby Module
 
 ## Design Notes
-* The blueprint supports by default 3 VPCs: a external, internal and management network.
-* We don't use the F5 Cloud Failover Extension (CFE). it would use static routes and it would require F5 VMs service accounts to have roles set, so they can configure routes.
-* The blueprint allows to expose the F5 instances both externally and internally, using internal and external network passthrough load balancers. You can also choose to expose the same F5 instances both externally and internally at the same time with backend instance-groups
-* We deliberately a modified F5-BigIP f5-onboard.tmpl file for cluster sync and failover
+* The blueprint supports by default 3 VPCs: external, internal and management networks.
+* We don't use the F5 Cloud Failover Extension (CFE). it would use static routes and it would require F5-BigIP VMs service account to have roles set, so they can configure routes, and/or alias IP's.
+* This module deploys 2 F5 BigIP VMs, each in an unmanaged instance group, in a dedicated zone.
+* Every F5-BigIP instance has only two ingress virtual-servers, each one for every Google-Load-Balancer.
+* The blueprint allows to expose the F5 instances both externally and internally, using internal and external load balancers. This deployment exposes the same F5 instances both externally and internally at the same time with backend instance-groups.
+* We use a modified F5-BigIP f5-onboard.tmpl file for initial configurations, cluster sync and failover
+* All initial setup is configued with F5-Declerative-Onboarding RPM downloaded from accessible bucket to the intances service-account.
+* Default provisioned modules are LTM and ASM. Change myProvisioning section in f5_onboard.tmpl in order to enable and/or disable modules (ASM, LTM, APM etc.)
+* Every configuration based on traffic-group-1 is synced between F5-BigIP instances
+* Make sure to specify Google-Internal-Load-Balancer IP address to the module in order create virtual server on the corresponding IP of GCP-ILB
 
 The default username is admin and the password is Default123456!
 
@@ -20,31 +26,72 @@ You won't be able to pass traffic through the F5 load balancers until you perfor
 
 ## Examples
 
-### Active/Standby Instances
+### Active/Standby Instances With IP addresses
 ```
 module "f5-bigip-cluster" {
   source     = "./modules/f5-bigip"
   prefix     = "f5-bigip"
   project_id = "my-project"
+  region = "me-west1"
 
   vpc_config = {
     external = {
-      subnetwork = subnetwork = "projects/my-project/regions/europe-west1/subnetworks/external"
+      subnetwork = subnetwork = "projects/my-project/regions/me-west1/subnetworks/external"
     }
     internal = {
-      subnetwork = subnetwork = "projects/my-project/regions/europe-west1/subnetworks/internal"
+      subnetwork = subnetwork = "projects/my-project/regions/me-west1/subnetworks/internal"
     }
     management = {
-      subnetwork = subnetwork = "projects/my-project/regions/europe-west1/subnetworks/managment"
+      subnetwork = subnetwork = "projects/my-project/regions/me-west1/subnetworks/managment"
     }
   }
 
   shared_instances_configs = {
     ilb_vip         = "1.2.3.4"
     service_account = "f5-bigip@my-project.iam.gserviceaccount.com"
-    dns_suffix      = "example.com
-    image           = "projects/f5-7626-networks-public/global/images/f5-bigip-16-1-4-1-0-53-5-byol-all-modules-1boot-loc-1026112549"
-    tags            =["f5-lb-appliance"]
+    dns_suffix      = "example.com"
+    tags            = ["f5-lb-appliance"]
+  }
+  dedicated_instances_configs = {
+    a = {
+      license_key = "AAAA-BBBB-CCCC-DDDD-EEEEEEE"
+    }
+    b = {
+      license_key = "AAAA-BBBB-CCCC-DDDD-EEEEEEE"
+    }
+  }
+}
+```
+
+### Active/Standby Instances IP addresses Pre-defined
+```
+module "f5-bigip-cluster" {
+  source     = "./modules/f5-bigip"
+  prefix     = "f5-bigip"
+  project_id = "my-project"
+  region = "me-west1"
+
+  vpc_config = {
+    external = {
+      subnetwork = "projects/my-project/regions/me-west1/subnetworks/external"
+      external_address = "10.10.1.10"
+
+    }
+    internal = {
+      subnetwork = "projects/my-project/regions/me-west1/subnetworks/internal"
+      internal_address = "10.10.2.10"
+    }
+    management = {
+     subnetwork = "projects/my-project/regions/me-west1/subnetworks/managment"
+     management_address = "10.10.3.10"
+    }
+  }
+
+  shared_instances_configs = {
+    ilb_vip         = "1.2.3.4"
+    service_account = "f5-bigip@my-project.iam.gserviceaccount.com"
+    dns_suffix      = "example.com"
+    tags            = ["f5-lb-appliance"]
   }
   dedicated_instances_configs = {
     a = {

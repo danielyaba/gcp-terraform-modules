@@ -11,7 +11,7 @@ variable "dedicated_instances_configs" {
 }
 
 variable "prefix" {
-  type = string
+  type        = string
   description = "The prefix name used for resources."
 }
 
@@ -35,19 +35,20 @@ variable "shared_instances_configs" {
       size  = optional(number, 100)
       type  = optional(string, "pd-ssd")
     }), {})
-    dns_server       = optional(string, "169.254.169.254")
-    dns_suffix       = string
-    ilb_vip          = string
-    labels           = optional(map(string))
-    machine_type     = optional(string, "n2-standard-8")
-    min_cpu_platform = optional(string, "Intel Cascade Lake")
-    ntp_server       = optional(string, "0.us.pool.ntp.org")
-    password         = optional(string, "Default123456!")
-    service_account  = optional(string)
-    ssh_public_key   = optional(string, "./data/public.key")
-    tags             = optional(list(string))
-    timezone         = optional(string, "UTC")
-    username         = optional(string, "admin")
+    dns_server         = optional(string, "169.254.169.254")
+    dns_suffix         = string
+    ilb_vip            = string
+    labels             = optional(map(string))
+    machine_type       = optional(string, "n2-standard-8")
+    min_cpu_platform   = optional(string, "Intel Cascade Lake")
+    ntp_server         = optional(string, "0.us.pool.ntp.org")
+    password           = optional(string, "Default123456!")
+    route_to_configure = optional(string)
+    service_account    = optional(string)
+    ssh_public_key     = optional(string, "./data/public.key")
+    tags               = optional(list(string))
+    timezone           = optional(string, "UTC")
+    username           = optional(string, "admin")
   })
 }
 

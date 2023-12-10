@@ -3,8 +3,7 @@ locals {
   _f5_urls = {
     as3 = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.46.0/f5-appsvcs-3.46.0-5.noarch.rpm"
     cfe = "https://github.com/F5Networks/f5-cloud-failover-extension/releases/download/v1.15.0/f5-cloud-failover-1.15.0-0.noarch.rpm"
-    do  = "gs://${var.shared_instances_configs.f5_packages_bucket}/f5-declarative-onboarding/v1.41.0/f5-declarative-onboarding-1.41.0-8.noarch.rpm"
-    # do   = "http://${resource.google_compute_instance.f5-packages-nginx.network_interface.0.network_ip}/5-declarative-onboarding/v1.41.0/f5-declarative-onboarding-1.41.0-8.noarch.rpm"
+    do   = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.41.0/f5-declarative-onboarding-1.41.0-8.noarch.rpm"
     fast = "https://github.com/F5Networks/f5-appsvcs-templates/releases/download/v1.25.0/f5-appsvcs-templates-1.25.0-1.noarch.rpm"
     init = "https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v1.6.2/dist/f5-bigip-runtime-init-1.6.2-1.gz.run"
     ts   = "https://github.com/F5Networks/f5-telemetry-streaming/releases/download/v1.33.0/f5-telemetry-1.33.0-1.noarch.rpm"
@@ -26,12 +25,12 @@ locals {
     { for k, v in local._f5_vers : upper("${k}_ver") => v },
     # hostnames and management IPs addresses for the cluster configuration
     { for k, v in var.dedicated_instances_configs : "hostname_${k}" => "${var.prefix}-${k}.${var.shared_instances_configs.dns_suffix}" },
-    { 
-      for k, v in var.dedicated_instances_configs : 
+    {
+      for k, v in var.dedicated_instances_configs :
       "mgmt_ip_${k}" =>
-        v.network_config.management_address == null ?
-        resource.google_compute_address.management[k].address :
-        v.network_config.management_address
+      v.network_config.management_address == null ?
+      resource.google_compute_address.management[k].address :
+      v.network_config.management_address
     }
   )
 }
@@ -65,7 +64,7 @@ resource "google_compute_instance" "f5-bigip-vms" {
     subnetwork = var.vpc_config.external.subnetwork
     network_ip = (each.value.network_config.external_address == null ?
       resource.google_compute_address.external[each.key].address :
-      each.value.network_config.external_address 
+      each.value.network_config.external_address
     )
   }
 
@@ -83,7 +82,7 @@ resource "google_compute_instance" "f5-bigip-vms" {
     subnetwork = var.vpc_config.internal.subnetwork
     network_ip = (each.value.network_config.internal_address == null ?
       resource.google_compute_address.internal[each.key].address :
-      each.value.network_config.internal_address 
+      each.value.network_config.internal_address
     )
   }
 
@@ -105,13 +104,13 @@ resource "google_compute_instance" "f5-bigip-vms" {
         resource.google_compute_address.management[each.key].address :
         each.value.network_config.management_address
       )
-      ilb_vip          = var.shared_instances_configs.ilb_vip
-      private_vip      = (each.value.network_config.external_address == null ?
+      ilb_vip = var.shared_instances_configs.ilb_vip
+      private_vip = (each.value.network_config.external_address == null ?
         resource.google_compute_address.external[each.key].address :
         each.value.network_config.external_address
       )
-      internal_subnets = "100.64.0.0/10"
-    }
+      internal_subnets = var.shared_instances_configs.route_to_configure
+      }
   )), "/\r/", "")
 
   labels = var.shared_instances_configs.labels
