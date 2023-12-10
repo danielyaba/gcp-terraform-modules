@@ -148,3 +148,30 @@ when HTTP_REQUEST {
 
 ## F5 code copyright
 
+This repository usees code from the third-party project terraform-gcp-bigip-module.
+
+This code is also licensed as Apache 2.0.
+
+This is the original copyright notice from the third-party repository: Copyright 2014-2019 F5 Networks Inc.
+
+<!-- BEGIN TFDOC -->
+
+## Variables
+
+| name | description | type | required | default |
+|---|---|:---:|:---:|:---:|
+| [dedicated_instances_configs](variables.tf#L1) | The F5 VMs configuration. The map keys are the zones where the VMs are deployed. | <code title="map&#40;object&#40;&#123;&#10;  license_key &#61; optional&#40;string, &#34;AAAAA-BBBBB-CCCCC-DDDDD-EEEEEEE&#34;&#41;&#10;  network_addresses &#61; optional&#40;object&#40;&#123;&#10;    external   &#61; optional&#40;string&#41;&#10;    internal   &#61; optional&#40;string&#41;&#10;    management &#61; optional&#40;string&#41;&#10;  &#125;&#41;, &#123;&#125;&#41;&#10;&#125;&#41;&#41;">map&#40;object&#40;&#123;&#8230;&#125;&#41;&#41;</code> | ✓ |  |
+| [prefix](variables.tf#L13) | The prefix name used for resources. | <code>string</code> | ✓ |  |
+| [project_id](variables.tf#L18) | The GCP project identifier where the cluster will be created. | <code>string</code> | ✓ |  |
+| [region](variables.tf#L23) | The compute zones which will host the BIG-IP VMs. | <code>string</code> | ✓ |  |
+| [shared_instances_configs](variables.tf#L29) | The F5 VMs shared configurations. | <code title="object&#40;&#123;&#10;  f5_packages_bucket &#61; string&#10;  boot_disk &#61; optional&#40;object&#40;&#123;&#10;    image &#61; optional&#40;string, &#34;projects&#47;f5-7626-networks-public&#47;global&#47;images&#47;f5-bigip-16-1-4-1-0-53-5-byol-all-modules-1boot-loc-1026112549&#34;&#41;&#10;    size  &#61; optional&#40;number, 100&#41;&#10;    type  &#61; optional&#40;string, &#34;pd-ssd&#34;&#41;&#10;  &#125;&#41;, &#123;&#125;&#41;&#10;  dns_server         &#61; optional&#40;string, &#34;169.254.169.254&#34;&#41;&#10;  dns_suffix         &#61; string&#10;  ilb_vip            &#61; string&#10;  labels             &#61; optional&#40;map&#40;string&#41;&#41;&#10;  machine_type       &#61; optional&#40;string, &#34;n2-standard-8&#34;&#41;&#10;  min_cpu_platform   &#61; optional&#40;string, &#34;Intel Cascade Lake&#34;&#41;&#10;  ntp_server         &#61; optional&#40;string, &#34;0.us.pool.ntp.org&#34;&#41;&#10;  password           &#61; optional&#40;string, &#34;Default123456&#33;&#34;&#41;&#10;  route_to_configure &#61; optional&#40;string&#41;&#10;  service_account    &#61; optional&#40;string&#41;&#10;  ssh_public_key     &#61; optional&#40;string, &#34;.&#47;data&#47;public.key&#34;&#41;&#10;  tags               &#61; optional&#40;list&#40;string&#41;&#41;&#10;  timezone           &#61; optional&#40;string, &#34;UTC&#34;&#41;&#10;  username           &#61; optional&#40;string, &#34;admin&#34;&#41;&#10;&#125;&#41;">object&#40;&#123;&#8230;&#125;&#41;</code> | ✓ |  |
+| [vpc_config](variables.tf#L55) | VPC configs for resources. | <code title="object&#40;&#123;&#10;  external &#61; object&#40;&#123;&#10;    subnetwork &#61; string&#10;  &#125;&#41;&#10;  internal &#61; object&#40;&#123;&#10;    subnetwork &#61; string&#10;  &#125;&#41;&#10;  management &#61; object&#40;&#123;&#10;    subnetwork &#61; string&#10;  &#125;&#41;&#10;&#125;&#41;">object&#40;&#123;&#8230;&#125;&#41;</code> | ✓ |  |
+
+## Outputs
+
+| name | description | sensitive |
+|---|---|:---:|
+| [f5-bigip-vms](outputs.tf#L1) | Details of every f5-bigip instance. |  |
+| [shared_instances_configs](outputs.tf#L14) | Details of shared instances config. |  |
+
+<!-- END TFDOC -->
