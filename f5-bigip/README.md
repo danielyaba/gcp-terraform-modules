@@ -30,7 +30,7 @@ You won't be able to pass traffic through the F5 load balancers until you perfor
 
 ### Active/Standby Instances With IP addresses
 
-This example below creates F5-BigIP along with IP addresses for management, external and internal NICs.
+This example below creates F5-BigIP active/standby cluster along with IP addresses for management, external and internal NICs.
 
 ```
 module "f5-bigip-cluster" {
@@ -68,7 +68,8 @@ module "f5-bigip-cluster" {
 }
 ```
 
-### Active/Standby Instances IP addresses Pre-defined
+### Active/Standby Instances With IP addresses Pre-defined
+This example below creates F5-BigIP active/standby cluster with pre-defined IP addresses sent to the module
 ```
 module "f5-bigip-cluster" {
   source     = "./modules/f5-bigip"
