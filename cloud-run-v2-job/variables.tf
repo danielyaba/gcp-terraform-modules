@@ -31,55 +31,34 @@ variable "containers" {
       key  = string
       name = string
     })), {})
-    liveness_probe = optional(object({
-      action = object({
-        grpc = optional(object({
-          port    = optional(number)
-          service = optional(string)
-        }))
-        http_get = optional(object({
-          http_headers = optional(map(string), {})
-          path         = optional(string)
-        }))
-      })
-      failure_threshold     = optional(number)
-      initial_delay_seconds = optional(number)
-      period_seconds        = optional(number)
-      timeout_seconds       = optional(number)
-    }))
     ports = optional(map(object({
       container_port = optional(number)
       name           = optional(string)
-      protocol       = optional(string)
     })), {})
     resources = optional(object({
       limits = optional(object({
         cpu    = string
         memory = string
       }))
-      requests = optional(object({
-        cpu    = string
-        memory = string
-      }))
     }))
-    startup_probe = optional(object({
-      action = object({
-        grpc = optional(object({
-          port    = optional(number)
-          service = optional(string)
+    volumes = optional(object({
+      name = string
+      cloud_sql_instance = optional(object({
+        instances = optional(string)
+      }))
+      empty_dir = optional(object({
+        medium = optional(string, "MEMORY")
+        size_limit = optional(number, null)
+      }))
+      secret = optional(object({
+        sceret = string
+        default_mode = optional(number, 0444)
+        items = optional(object({
+          path = string
+          version = optional(any(string, number))
+          mode = optional(number)
         }))
-        http_get = optional(object({
-          http_headers = optional(map(string), {})
-          path         = optional(string)
-        }))
-        tcp_socket = optional(object({
-          port = optional(number)
-        }))
-      })
-      failure_threshold     = optional(number)
-      initial_delay_seconds = optional(number)
-      period_seconds        = optional(number)
-      timeout_seconds       = optional(number)
+      }))
     }))
     volume_mounts = optional(map(string), {})
   }))
@@ -93,27 +72,27 @@ variable "encryption_key" {
   default = null
 }
 
-variable "eventarc_triggers" {
-  description = "Event arc triggers for different sources."
-  type = object({
-    audit_log = optional(map(object({
-      method  = string
-      service = string
-    })), {})
-    pubsub                 = optional(map(string), {})
-    service_account_email  = optional(string)
-    service_account_create = optional(bool, false)
-  })
-  default = {}
-  validation {
-    condition = (
-      var.eventarc_triggers.service_account_email == null && length(var.eventarc_triggers.audit_log) == 0
-      ) || (
-      var.eventarc_triggers.service_account_email != null
-    )
-    error_message = "service_account_email is required if providing audit_log"
-  }
-}
+# variable "eventarc_triggers" {
+#   description = "Event arc triggers for different sources."
+#   type = object({
+#     audit_log = optional(map(object({
+#       method  = string
+#       service = string
+#     })), {})
+#     pubsub                 = optional(map(string), {})
+#     service_account_email  = optional(string)
+#     service_account_create = optional(bool, false)
+#   })
+#   default = {}
+#   validation {
+#     condition = (
+#       var.eventarc_triggers.service_account_email == null && length(var.eventarc_triggers.audit_log) == 0
+#       ) || (
+#       var.eventarc_triggers.service_account_email != null
+#     )
+#     error_message = "service_account_email is required if providing audit_log"
+#   }
+# }
 
 variable "execution_environment" {
   description = "The execution environment being used to host this Task. Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2."
@@ -193,7 +172,7 @@ variable "volumes" {
   type = map(object({
     secret_name  = string
     sql_instance_create = optional(bool, false)
-    sql_instances = optional(string)
+    sql_instance = optional(string)
     default_mode = optional(string)
     items = optional(map(object({
       path = string
@@ -204,7 +183,7 @@ variable "volumes" {
   nullable = false
 }
 
-variable "vpc_access" {
+variable "vpc_connector" {
   description = "VPC Access configuration to use for this Task."
   type = object({
     connector = optional(string)

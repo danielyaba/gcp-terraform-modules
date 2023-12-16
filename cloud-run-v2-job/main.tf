@@ -1,4 +1,5 @@
 locals {
+  prefix = var.prefix == null ? "" : "${var.prefix}-"
   service_account_email = (
     var.service_account_create
     ? (
@@ -8,7 +9,6 @@ locals {
     )
     : var.service_account
   )
-
   sql_instance = (
     var.volumes.sql_instance_create
     ? (
@@ -16,8 +16,9 @@ locals {
       ? google_sql_database_instance.instance[0].connection_name
       : null
     )
-    : var.service_account
+    : var.volumes.sql_instance
   )
+  vpc_connector_create = var.vpc_connector_create != null
 }
 
 resource "google_cloud_run_v2_job" "default" {
@@ -47,8 +48,8 @@ resource "google_cloud_run_v2_job" "default" {
                secret_key_ref {
                  secret = env.env.key
                  version = env.value.version
-               }
-             } 
+                }
+              } 
             }
           }
           dynamic "resources" {
@@ -102,28 +103,52 @@ resource "google_cloud_run_v2_job" "default" {
         }
       }
       
-
       dynamic "vpc_access" {
-        for_each = var.vpc_access
+        for_each = var.vpc_connector == null ? [] : [""]
         content {
-          connector = vpc_access.value.connector
-          egress = vpc_access.value.egress
+          connector = vpc_connector.value.connector
+          egress = vpc_connector.value.egress
           dynamic "network_interfaces" {
-            for_each = vpc_access.value.network_interfaces
+            for_each = vpc_connector.value.network_interfaces
             content {
               network = network_interfaces.value.network
               subnetwork = network_interfaces.value.subnetwork
             }
-            
           }
         }
       }
 
-      timeout = var.timeout
-      service_account = local.service_account_email
-      execution_environment = var.execution_environment
       encryption_key = var.encryption_key
+      execution_environment = var.execution_environment
       max_retries = var.max_retries
+      service_account = local.service_account_email
+      timeout = var.timeout
+    }
+  }
+}
+
+
+resource "google_vpc_access_connector" "connector" {
+  count   = local.vpc_connector_create ? 1 : 0
+  project = var.project_id
+  name = (
+    var.vpc_connector_create.name != null
+    ? var.vpc_connector_create.name
+    : var.name
+  )
+  region         = var.region
+  ip_cidr_range  = var.vpc_connector_create.ip_cidr_range
+  network        = var.vpc_connector_create.vpc_self_link
+  machine_type   = var.vpc_connector_create.machine_type
+  max_instances  = var.vpc_connector_create.instances.max
+  max_throughput = var.vpc_connector_create.throughput.max
+  min_instances  = var.vpc_connector_create.instances.min
+  min_throughput = var.vpc_connector_create.throughput.min
+  dynamic "subnet" {
+    for_each = alltrue([for k, v in var.vpc_connector_create.subnet : (v == null)]) ? [] : [""]
+    content {
+      name       = var.vpc_connector_create.subnet.name
+      project_id = var.vpc_connector_create.subnet.project_id
     }
   }
 }
