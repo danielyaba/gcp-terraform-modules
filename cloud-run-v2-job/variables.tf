@@ -88,6 +88,12 @@ variable "containers" {
   nullable = false
 }
 
+variable "encryption_key" {
+  description = "A reference to a customer managed encryption key (CMEK) to use to encrypt this container image."
+  type = string
+  default = null
+}
+
 variable "eventarc_triggers" {
   description = "Event arc triggers for different sources."
   type = object({
@@ -108,6 +114,12 @@ variable "eventarc_triggers" {
     )
     error_message = "service_account_email is required if providing audit_log"
   }
+}
+
+variable "execution_environment" {
+  description = "The execution environment being used to host this Task. Possible values are: EXECUTION_ENVIRONMENT_GEN1, EXECUTION_ENVIRONMENT_GEN2."
+  type = string
+  default = null
 }
 
 variable "gen2_execution_environment" {
@@ -141,9 +153,20 @@ variable "labels" {
   default     = {}
 }
 
+variable "max_retries" {
+  description = "Number of retries allowed per Task, before marking this Task failed."
+  type = number
+}
+
 variable "name" {
   description = "Name used for cloud run service."
   type        = string
+}
+
+variable "parallelism" {
+  description = "Maximum desired number of tasks the execution should run at given time."
+  type = number
+  default = null
 }
 
 variable "prefix" {
@@ -206,9 +229,15 @@ variable "startup_cpu_boost" {
   default     = false
 }
 
-variable "timeout_seconds" {
+variable "task_count" {
+  description = "Number of tasks the execution should run."
+  type = number
+  default = null
+}
+
+variable "timeout" {
   description = "Maximum duration the instance is allowed for responding to a request."
-  type        = number
+  type        = string
   default     = null
 }
 
@@ -227,6 +256,8 @@ variable "volumes" {
   description = "Named volumes in containers in name => attributes format."
   type = map(object({
     secret_name  = string
+    sql_instance_create = optional(bool, false)
+    sql_instances = optional(string)
     default_mode = optional(string)
     items = optional(map(object({
       path = string
@@ -235,6 +266,20 @@ variable "volumes" {
   }))
   default  = {}
   nullable = false
+}
+
+variable "vpc_access" {
+  description = "VPC Access configuration to use for this Task."
+  type = object({
+    connector = optional(string)
+    egress = optional(string)
+    network_interfaces = optional(object({
+      network = optional(string)
+      subnetwork = optional(string)
+      tags = optional(list(string))
+    }))
+  })
+  default = null
 }
 
 variable "vpc_connector_create" {
@@ -305,6 +350,5 @@ variable "scheduler" {
       }))
     }))
   })
-  default = {}
-  nullable = false
+  default = null
 }
