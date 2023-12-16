@@ -27,6 +27,7 @@ resource "google_cloud_run_v2_job" "default" {
 
   template {
     labels = var.labels
+    annotations = var.annotations
     parallelism = var.parallelism
     task_count = var.task_count
     template {
@@ -102,8 +103,20 @@ resource "google_cloud_run_v2_job" "default" {
       }
       
 
-      vpc_access {
-        
+      dynamic "vpc_access" {
+        for_each = var.vpc_access
+        content {
+          connector = vpc_access.value.connector
+          egress = vpc_access.value.egress
+          dynamic "network_interfaces" {
+            for_each = vpc_access.value.network_interfaces
+            content {
+              network = network_interfaces.value.network
+              subnetwork = network_interfaces.value.subnetwork
+            }
+            
+          }
+        }
       }
 
       timeout = var.timeout

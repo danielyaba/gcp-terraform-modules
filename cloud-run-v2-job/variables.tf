@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 
-variable "container_concurrency" {
-  description = "Maximum allowed in-flight (concurrent) requests per container of the revision."
-  type        = string
-  default     = null
+variable "annotations" {
+  description = "Annotations that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects."
+  type = map(any)
 }
 
 variable "containers" {
@@ -122,31 +121,6 @@ variable "execution_environment" {
   default = null
 }
 
-variable "gen2_execution_environment" {
-  description = "Use second generation execution environment."
-  type        = bool
-  default     = false
-}
-
-variable "iam" {
-  description = "IAM bindings for Cloud Run service in {ROLE => [MEMBERS]} format."
-  type        = map(list(string))
-  default     = {}
-}
-
-variable "ingress_settings" {
-  description = "Ingress settings."
-  type        = string
-  default     = null
-  validation {
-    condition = contains(
-      ["all", "internal", "internal-and-cloud-load-balancing"],
-      coalesce(var.ingress_settings, "all")
-    )
-    error_message = "Ingress settings can be one of 'all', 'internal', 'internal-and-cloud-load-balancing'."
-  }
-}
-
 variable "labels" {
   description = "Resource labels."
   type        = map(string)
@@ -190,27 +164,6 @@ variable "region" {
   default     = "europe-west1"
 }
 
-variable "revision_annotations" {
-  description = "Configure revision template annotations."
-  type = object({
-    autoscaling = optional(object({
-      max_scale = number
-      min_scale = number
-    }))
-    cloudsql_instances  = optional(list(string), [])
-    vpcaccess_connector = optional(string)
-    vpcaccess_egress    = optional(string)
-  })
-  default  = {}
-  nullable = false
-}
-
-variable "revision_name" {
-  description = "Revision name."
-  type        = string
-  default     = null
-}
-
 variable "service_account" {
   description = "Service account email. Unused if service account is auto-created."
   type        = string
@@ -219,12 +172,6 @@ variable "service_account" {
 
 variable "service_account_create" {
   description = "Auto-create service account."
-  type        = bool
-  default     = false
-}
-
-variable "startup_cpu_boost" {
-  description = "Enable startup cpu boost."
   type        = bool
   default     = false
 }
@@ -239,17 +186,6 @@ variable "timeout" {
   description = "Maximum duration the instance is allowed for responding to a request."
   type        = string
   default     = null
-}
-
-variable "traffic" {
-  description = "Traffic steering configuration. If revision name is null the latest revision will be used."
-  type = map(object({
-    percent = number
-    latest  = optional(bool)
-    tag     = optional(string)
-  }))
-  default  = {}
-  nullable = false
 }
 
 variable "volumes" {
@@ -279,7 +215,8 @@ variable "vpc_access" {
       tags = optional(list(string))
     }))
   })
-  default = null
+  default = {}
+  nullable = false
 }
 
 variable "vpc_connector_create" {
