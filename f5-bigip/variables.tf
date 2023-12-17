@@ -44,6 +44,10 @@ variable "shared_instances_configs" {
     ntp_server         = optional(string, "0.us.pool.ntp.org")
     password           = optional(string, "Default123456!")
     route_to_configure = optional(string)
+    # internal_routes     = optional(list(object({
+    #   name = string
+    #   network = string
+    # })), [])
     service_account    = optional(string)
     ssh_public_key     = optional(string, "~/.ssh/id_rsa.pub")
     tags               = optional(list(string))

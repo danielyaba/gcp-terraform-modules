@@ -109,8 +109,14 @@ resource "google_compute_instance" "f5-bigip-vms" {
         each.value.network_addresses.external_address
       )
       internal_subnets = var.shared_instances_configs.route_to_configure
-      }
-  )), "/\r/", "")
+      # TODO:
+      # change the variable to a list and modify the f5_onbaord.tmpl script accordingly to configure all routes in the list
+      # [
+        # {"name" : "web_servers" , "network" : "192.168.10.0/24" }
+        # {"name" : "db_servers"  , "network" : "192.168.20.0/24" }
+      # ]
+      # internal_routes = var.shared_instances_configs.internal_routes
+    })), "/\r/", "")
 
   labels = var.shared_instances_configs.labels
   tags   = var.shared_instances_configs.tags
