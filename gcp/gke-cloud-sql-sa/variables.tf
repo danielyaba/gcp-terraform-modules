@@ -8,3 +8,8 @@ variable "gke_namespace" {
   description = "Namespace of k8s service with also be collerate with service account"
 }
 
+variable "sa_roles" {
+  type = list(string)
+  default = ["roles/cloudsql.client", "roles/iam.workloadIdentityUser"]
+}
+
