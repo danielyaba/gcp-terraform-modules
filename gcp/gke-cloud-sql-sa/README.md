@@ -9,7 +9,7 @@ Basic usage of this module is as follows:
 
 ```hcl
 module "gke-cloud-sql-sa" {
-  source        = "github.com/danielyaba/terraform-gcp-modules//gke-cloud-sql-sa"
+  source        = "github.com/danielyaba/terraform-modules//gcp/gke-cloud-sql-sa"
   project_id    = "<PROJECT_ID>"
   gke_namespace = "<GKE_NAMESPACE>"
 }
@@ -32,10 +32,7 @@ Then perform the following commands on the root folder:
 | Name | Description |
 | :--- | :--- |
 <!-- TODO: Add outputs to module -->
-
-## Requirements
-Before this module can be used on a project, you must ensure that the following pre-requisites are fulfilled:
-<!-- TODO: Add requirements to module -->
+| service_account_email | Service account email of service account |
 
 
 
