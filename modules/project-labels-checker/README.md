@@ -21,8 +21,8 @@ It creates a Cloud-Function, GCS Bucket, VPC-Connector, Service-Account and Clou
 2. Make sure that vpc connector subnet with `/28` is exists in the VPC.  
 3. Make sure vpc-connector has relevant FW ingress rules from serverless infrastructure:  
 Ingress rules:  
-sources IP: 35.199.224.0/19
-target tags: vpc-connector
+sources IP: 35.199.224.0/19.  
+target tags: vpc-connector.  
 
 ## Examples:
 Note: `environment_variables` must be in captial letters.  
