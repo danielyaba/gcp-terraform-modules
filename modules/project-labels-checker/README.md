@@ -6,9 +6,9 @@ It creates a Cloud-Function, GCS Bucket, VPC-Connector, Service-Account and Clou
 
 
 ## TODO
-* add support GCS bucket creation and configuration
-* add support specifying docker repository id
-* add support trigger alert on project creation event
+* add support for GCS bucket creation and configuration
+* add support for specifying docker repository id
+* add support for trigger alert on project creation event
 
 ## Prerequisites
 1. Make sure the following API services are enabled on you project:
