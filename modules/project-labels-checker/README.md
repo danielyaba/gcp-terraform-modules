@@ -1,4 +1,4 @@
-# Labels Notify Module
+# Project-Labels-Checker Modules
 
 This module allows creating Cloud-Function for alerting about project with non-compliance labels.  
 
