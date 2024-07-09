@@ -12,75 +12,12 @@ It creates a Cloud-Function, GCS Bucket, VPC-Connector, Service-Account and Clou
 * vpcaccess.googleapis.com - VPC Serverless API
 * cloudscheduler.googleapis.com - Cloud Scheduler API
 
-```
-module "project" {
-  project_id = var.project_id
-  services = [
-    "cloudbuild.googleapis.com",
-    "cloudscheduler.googleapis.com",
-    "eventarc.googleapis.com",
-    "run.googleapis.com",
-    "vpcaccess.googleapis.com"
-  ]
-}
-```
-
-2. Make sure ```Serverles VPC Access Service Agent``` has networkUser role in the host shared VPC project:
-```
-module "project" {
-  project_id = "your-project-id"
-  shared_vpc_service_config = {
-    attach       = true
-    host_project = var.project_ids.office
-    service_identity_iam = {
-      "roles/compute.networkUser" = [
-        "cloudservices", "container-engine", "vpcaccess"
-      ]
-    }
-  }
-}
-```
-
-3. Make sure that a vpc-connector subnet with `/28` is exists in the host shared VPC project under the relevant VPC network.  
-For example under dev VPC:
-```
-module "dev-vpc" {
-  source                          = "../modules/net-vpc"
-  project_id                      = var.project_ids.office
-  delete_default_routes_on_create = true
-  name                            = "${local.prefix}-vpc-dev"
-  data_folder                     = "data/dev-subnets"
-
-  subnets = [
-    {
-      ip_cidr_range = "10.0.0.0/28"
-      name          = "subnet-name"
-      region        = "me-west1"
-    },
-  ]
-}
-```
-
-4. Make sure vpc-connector has relevant FW ingress rules from serverless infrastructure in the host shared VPC project under the relevant VPC network.  
-For example under dev VPC:
-```
-module "dev-firewall" {
-  source     = "../modules/net-vpc-firewall"
-  project_id = var.project_ids.office
-  network    = module.dev-vpc.name
-  default_rules_config = {
-    disabled = true
-  }
-  ingress_rules = {
-    vpc-connector = {
-      priority      = 1000
-      description   = "Allow ingress to VPC connector"
-      targets       = ["vpc-connector"]
-      source_ranges = ["35.199.224.0/19"]
-    }
-  }
-}
-```
+2. Make sure that vpc connector subnet with `/28` is exists in the VPC
+3. 
+4. Make sure vpc-connector has relevant FW ingress rules from serverless infrastructure in the host shared VPC project under the relevant VP
+Ingress rules:
+- sources IP: 35.199.224.0/19
+- target tags: vpc-connector
 
 ## Examples:
 Note: `environment_variables` must be in captial letters.  
