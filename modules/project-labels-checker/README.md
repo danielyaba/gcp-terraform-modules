@@ -12,9 +12,8 @@ It creates a Cloud-Function, GCS Bucket, VPC-Connector, Service-Account and Clou
 * vpcaccess.googleapis.com - VPC Serverless API
 * cloudscheduler.googleapis.com - Cloud Scheduler API
 
-2. Make sure that vpc connector subnet with `/28` is exists in the VPC
-3. 
-4. Make sure vpc-connector has relevant FW ingress rules from serverless infrastructure in the host shared VPC project under the relevant VP
+2. Make sure that vpc connector subnet with `/28` is exists in the VPC.  
+3. Make sure vpc-connector has relevant FW ingress rules from serverless infrastructure in the host shared VPC project under the relevant VP
 Ingress rules:
 - sources IP: 35.199.224.0/19
 - target tags: vpc-connector
