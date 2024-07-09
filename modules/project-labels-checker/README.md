@@ -157,6 +157,12 @@ module "labels-checker" {
   }
 }
 ```
+
+TO DO:
+* Support GCS bucket creation and configuration
+* Support specifying docker repository id
+
+
 <!-- BEGIN TFDOC -->
 ## Variables
 
