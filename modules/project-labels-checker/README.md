@@ -4,6 +4,12 @@ This module allows creating Cloud-Function for alerting about project with non-c
 
 It creates a Cloud-Function, GCS Bucket, VPC-Connector, Service-Account and Cloud-Scheduler-Job.  
 
+
+## TODO
+* add support GCS bucket creation and configuration
+* add support specifying docker repository id
+* add support trigger alert on project creation event
+
 ## Prerequisites
 1. Make sure the following API services are enabled on you project:
 * cloudbuild.googleapis.com - Cloud Build API
@@ -158,10 +164,7 @@ module "labels-checker" {
 }
 ```
 
-TO DO:
-* Support GCS bucket creation and configuration
-* Support specifying docker repository id
-* Support trigger alert on project creation event
+
 
 
 <!-- BEGIN TFDOC -->
