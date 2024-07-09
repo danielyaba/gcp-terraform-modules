@@ -161,6 +161,7 @@ module "labels-checker" {
 TO DO:
 * Support GCS bucket creation and configuration
 * Support specifying docker repository id
+* Support trigger alert on project creation event
 
 
 <!-- BEGIN TFDOC -->
