@@ -37,7 +37,6 @@ module "f5-bigip-cluster" {
   prefix     = "f5-bigip"
   project_id = "my-project"
   region = "me-west1"
-
   vpc_config = {
     external = {
       subnetwork = subnetwork = "projects/my-project/regions/me-west1/subnetworks/external"
@@ -49,13 +48,11 @@ module "f5-bigip-cluster" {
       subnetwork = subnetwork = "projects/my-project/regions/me-west1/subnetworks/managment"
     }
   }
-
   shared_instances_configs = {
     ilb_vip         = "1.2.3.4"
     service_account = "f5-bigip@my-project.iam.gserviceaccount.com"
     dns_suffix      = "example.com"
   }
-
   dedicated_instances_configs = {
     a = {
       license_key = "AAAA-BBBB-CCCC-DDDD-EEEEEEE"
@@ -76,7 +73,6 @@ module "f5-bigip-cluster" {
   prefix     = "f5-bigip"
   project_id = "my-project"
   region = "me-west1"
-
   vpc_config = {
     external = {
       subnetwork = "projects/my-project/regions/me-west1/subnetworks/external"
@@ -89,13 +85,11 @@ module "f5-bigip-cluster" {
      subnetwork = "projects/my-project/regions/me-west1/subnetworks/managment"
     }
   }
-
   shared_instances_configs = {
     ilb_vip         = "1.2.3.4"
     service_account = "f5-bigip@my-project.iam.gserviceaccount.com"
     dns_suffix      = "example.com"
   }
-
   dedicated_instances_configs = {
     a = {
       license_key = "AAAA-BBBB-CCCC-DDDD-EEEEEEE"
@@ -168,9 +162,6 @@ locals {
 }
 ```
 
-
-
-
 ## Configure configSync and Failover on Management Subnetwork
 Inside ```data``` directory there is ```f5_onboard_mgmt.tmpl``` template file:  
 F5-BigIP cluster will be configured with configSync and failover with connectivity on the management NIC.  
@@ -209,9 +200,7 @@ resource "google_compute_instance_group" "f5-bigip-b" {
     port = "443"
   }
 }
-
 ```
-
 
 ## Ingress Controller iRule
 ```
@@ -220,17 +209,14 @@ when HTTP_REQUEST {
     if { [string tolower [HTTP::host]] equals "app1.example.com" } {
         pool pool_app1
     }
-
     # route traffic to backend pool based on path
     if { [string tolower [HTTP::path]] equals "/example1" } {
         pool pool_app1
     }
-
     # route traffic to internal virtual-server based on hostname
     if { [string tolower [HTTP::host]] equals "app1.example.com" } {
         virtual virt_app1
     }
-
     # route traffic internal virtual-server based on path
     if { [string tolower [HTTP::path]] equals "/example1" } {
         virtual virt_app1
